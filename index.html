@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RAVINDO | Minggu 12: Control System Keselamatan & Interlock</title>
+  <style>
+    :root {
+      --primary: #0d47a1;
+      --secondary: #ff6d00;
+      --light: #e3f2fd;
+      --dark: #01579b;
+      --danger: #d32f2f;
+      --success: #2e7d32;
+      --text: #212121;
+      --bg: #f5f9ff;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: var(--text);
+      background-color: var(--bg);
+      padding: 20px;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    header {
+      background: linear-gradient(to right, var(--primary), var(--dark));
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    h2 {
+      font-size: 1.6rem;
+      margin: 25px 0 15px;
+      color: var(--primary);
+      border-bottom: 2px solid var(--light);
+      padding-bottom: 8px;
+    }
+    h3 {
+      font-size: 1.3rem;
+      margin: 20px 0 12px;
+      color: var(--dark);
+    }
+    p, ul, ol {
+      margin-bottom: 16px;
+    }
+    ul, ol {
+      padding-left: 20px;
+    }
+    li {
+      margin-bottom: 8px;
+    }
+    .highlight {
+      background-color: #fff8e1;
+      padding: 16px;
+      border-left: 4px solid var(--secondary);
+      margin: 20px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    .pillar {
+      display: flex;
+      gap: 16px;
+      margin: 25px 0;
+      flex-wrap: wrap;
+    }
+    .pillar-card {
+      flex: 1;
+      min-width: 200px;
+      background: var(--light);
+      padding: 20px;
+      border-radius: 10px;
+      border-top: 4px solid;
+    }
+    .head { border-color: #2196f3; }
+    .hand { border-color: #4caf50; }
+    .heart { border-color: #f44336; }
+    .habit { border-color: #9c27b0; }
+    .pillar-card h4 {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    pre {
+      background: #263238;
+      color: #eeeeee;
+      padding: 16px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: monospace;
+      font-size: 0.95rem;
+    }
+    .story {
+      background: #f9f9f9;
+      border-left: 4px solid var(--danger);
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    .story h4 {
+      color: var(--danger);
+      margin-bottom: 12px;
+    }
+    .regulation-box {
+      background: #f3e5f5;
+      border-left: 4px solid #9c27b0;
+      padding: 16px;
+      margin: 20px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    .regulation-box h4 {
+      color: #6a1b9a;
+      margin-bottom: 10px;
+    }
+    .resource-box {
+      background: #e3f2fd;
+      border: 2px solid #2196f3;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 25px 0;
+    }
+    .resource-box h4 {
+      color: #0d47a1;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .resource-list {
+      list-style: none;
+      padding: 0;
+    }
+    .resource-list li {
+      margin-bottom: 12px;
+      padding-left: 24px;
+      position: relative;
+    }
+    .resource-list li::before {
+      content: "🔗";
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+    .resource-list a {
+      color: #0d47a1;
+      text-decoration: underline;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: var(--dark);
+      font-size: 0.9rem;
+      border-top: 1px solid #eee;
+    }
+    @media (max-width: 600px) {
+      h1 { font-size: 1.8rem; }
+      h2 { font-size: 1.4rem; }
+      .container { padding: 15px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>📚 RAVINDO MARITIME LEARNING SYSTEM</h1>
+      <p>Semester 2: Sistem Kelistrikan Kapal & Kontrol Automasi<br>Universitas Hang Tuah (UHT)</p>
+      <h2 style="color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.3);">🕹️ MINGGU 12: CONTROL SYSTEM KESELAMATAN & INTERLOCK</h2>
+      <p><em>"Bagaimana Sistem Otomatis Mencegah Kecelakaan Sebelum Terjadi?"</em></p>
+    </header>
+
+    <main style="padding: 25px;">
+      <section>
+        <h2>1️⃣ IDENTITAS MODUL</h2>
+        <p><strong>Sesuai SMME314 – Pirireis University:</strong><br>
+        “Safety precautions for steam circuits”, “Automatic shutdown systems”</p>
+        <p><strong>Sesuai Auto-2 Scribd:</strong><br>
+        “Safety interlock logic, auto shutdown, fail-safe design”</p>
+        <p><strong>Semester/Level:</strong> Semester 2 – Sistem Kelistrikan Kapal & Kontrol Automasi<br>
+        <strong>Minggu:</strong> 12 dari 16<br>
+        <strong>Judul Modul:</strong> Control System Keselamatan & Interlock<br>
+        <strong>Judul Sederhana:</strong> "Penjaga Otomatis Kapal"<br>
+        <strong>Durasi Belajar Mandiri:</strong> 10 jam<br>
+        <strong>Durasi Kelas:</strong> 3 jam (simulasi TechSim 5000)</p>
+
+        <p><strong>Fokus Minggu Ini:</strong><br>
+        Kamu akan belajar **sistem interlock & auto shutdown** yang mencegah kecelakaan sebelum terjadi — seperti rem darurat otomatis.</p>
+      </section>
+
+      <section class="resource-box">
+        <h4>📁 MEDIA PEMBELAJARAN</h4>
+        <ul class="resource-list">
+          <li><a href="https://www.youtube.com/watch?v=KJ7XqY5vQ8E" target="_blank">▶ Cara Kerja Safety Interlock di Kapal</a></li>
+          <li><a href="https://www.youtube.com/watch?v=RmL9ZxW2j4c" target="_blank">▶ Simulasi Auto Shutdown Boiler</a></li>
+          <li><a href="https://drive.google.com/drive/folders/1ABC123_minggu12_ravindo_uht" target="_blank">📄 Slide & Latihan: Safety Interlock Logic</a></li>
+        </ul>
+      </section>
+
+      <section class="regulation-box">
+        <h4>📚 LITERATUR NASIONAL & INTERNASIONAL</h4>
+        <p><strong>Internasional:</strong><br>
+        • IACS Unified Requirement E10: Safety-related systems<br>
+        • IMO STCW Regulation III/1: Competence in automation safety<br>
+        • TechSim 5000 Manual v8.6 (Pirireis University)</p>
+        <p><strong>Nasional:</strong><br>
+        • BKI Rules 2023 – Bab 5: Sistem Kontrol & Keselamatan<br>
+        • Buku Ajar: <em>Kontrol Automasi Kapal</em> – Politeknik Ilmu Pelayaran Makassar</p>
+      </section>
+
+      <section>
+        <h2>2️⃣ TUJUAN PEMBELAJARAN</h2>
+        <p>Setelah minggu ini, kamu <strong>HARUS BISA:</strong></p>
+
+        <h3>A. Pengetahuan (Kamu TAHU):</h3>
+        <ol>
+          <li>Menjelaskan prinsip **fail-safe** dalam desain sistem keselamatan</li>
+          <li>Memahami logika **interlock**: “tidak boleh jalan jika kondisi X tidak terpenuhi”</li>
+          <li>Menjelaskan skenario **auto shutdown** untuk boiler, generator, dan mesin utama</li>
+        </ol>
+
+        <h3>B. Keterampilan (Kamu BISA):</h3>
+        <ol>
+          <li>Membaca diagram interlock sederhana</li>
+          <li>Menganalisis penyebab sistem tidak bisa start</li>
+          <li>Simulasi auto shutdown di TechSim 5000</li>
+        </ol>
+
+        <h3>C. Sikap (Kamu PEDULI):</h3>
+        <ol>
+          <li>Tidak mematikan interlock karena “mengganggu kerja”</li>
+          <li>Selalu verifikasi kondisi aman sebelum bypass (jika diizinkan)</li>
+          <li>Rapi dalam mendokumentasikan insiden keselamatan</li>
+        </ol>
+
+        <h3>D. Kebiasaan (Kamu RUTIN):</h3>
+        <ol>
+          <li>Uji fungsi interlock tiap shift</li>
+          <li>Catat setiap kali sistem auto shutdown aktif</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>3️⃣ THE 4 PILLARS OF LEARNING (HELD)</h2>
+        <div class="pillar">
+          <div class="pillar-card head">
+            <h4>🧠 HEAD (35%) - Kamu Harus PAHAM</h4>
+            <p><strong>Prinsip Fail-Safe:</strong></p>
+            <pre>Jika sistem rusak → kondisi AMAN
+Contoh:
+• Listrik mati → katup uap TERTUTUP
+• Sensor gagal → mesin BERHENTI
+
+Logika Interlock:
+• Mesin utama tidak bisa start
+  jika tekanan oli < 2 bar
+• Boiler tidak bisa nyala
+  jika level air rendah</pre>
+          </div>
+
+          <div class="pillar-card hand">
+            <h4>🔧 HAND (30%) - Kamu Harus BISA</h4>
+            <p><strong>Diagram Interlock Boiler:</strong></p>
+            <pre>|----[Level Air RENDAH]----|----(TIDAK NYALA)----|
+|                            |
+|----[Tekanan Uap TINGGI]---|
+
+Artinya:
+Boiler hanya nyala jika:
+• Level air CUKUP
+• Tekanan uap NORMAL</pre>
+          </div>
+        </div>
+
+        <div class="pillar">
+          <div class="pillar-card heart">
+            <h4>❤️ HEART (20%) - Kamu Harus PEDULI</h4>
+            <p><strong>Sikap Profesional:</strong></p>
+            <pre>• Interlock bukan penghalang — itu pelindung
+• Mematikan interlock = membuka pintu bahaya
+• Setiap shutdown punya alasan — cari akarnya!
+• Dokumentasi = bukti tanggung jawab</pre>
+          </div>
+
+          <div class="pillar-card habit">
+            <h4>🔁 HABIT (15%) - Kamu Harus RUTIN</h4>
+            <p><strong>Rutinitas Keselamatan:</strong></p>
+            <pre>☐ Uji interlock tiap shift
+☐ Jangan bypass tanpa izin tertulis
+☐ Catat penyebab setiap shutdown
+☐ Laporkan jika interlock lambat respons</pre>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>4️⃣ MATERI INTI: INTERLOCK = REM DARURAT OTOMATIS</h2>
+        <p>Bayangkan mobil modern: **tidak bisa jalan jika sabuk pengaman belum dipasang**. Itu **interlock**!</p>
+        <p>Di kapal, sistem serupa mencegah:</p>
+        <ul>
+          <li>Mesin jalan tanpa oli cukup</li>
+          <li>Boiler nyala tanpa air</li>
+          <li>Generator sinkron saat frekuensi beda</li>
+        </ul>
+
+        <div class="highlight">
+          <p><strong>Auto Shutdown vs Manual Shutdown:</strong><br>
+          - **Manual**: Engineer tekan tombol<br>
+          - **Auto**: Sistem otomatis matikan saat bahaya terdeteksi<br>
+          <strong>Auto shutdown adalah teman terbaikmu saat tidur!</strong></p>
+        </div>
+
+        <h3>Analogi Sederhana: Rice Cooker</h3>
+        <p>Rice cooker otomatis mati saat nasi matang. Jika tidak ada fitur ini, nasi gosong → kebakaran!<br>
+        **Interlock di kapal bekerja persis seperti ini — tapi untuk nyawa.**</p>
+
+        <div class="story">
+          <h4>❤️ Cerita Nyata: Kapal Selamat Berkat Auto Shutdown</h4>
+          <p><strong>Kejadian:</strong><br>
+          Di kapal tanker, tekanan uap boiler naik drastis karena katup macet. Sistem auto shutdown aktif → matikan pemanas → tekanan turun.<br>
+          Jika tidak ada sistem ini, **boiler meledak**.</p>
+          <p><strong>Pelajaran:</strong><br>
+          <strong>Sistem keselamatan tidak pernah "berlebihan".<br>
+          Yang berlebihan adalah mengabaikannya.</strong></p>
+        </div>
+
+        <h3>Latihan di Kelas:</h3>
+        <p>Kamu akan:<br>
+        - Gunakan simulator TechSim 5000<br>
+        - Simulasi level air rendah di boiler<br>
+        - Amati respons auto shutdown<br>
+        - Latihan analisis logika interlock</p>
+      </section>
+    </main>
+
+    <footer>
+      <p>© 2026 RAVINDO MARITIME LEARNING SYSTEM | Universitas Hang Tuah (UHT)</p>
+      <p>⚓ Sistem yang Waspada = Kapal yang Selamat! 🔥</p>
+    </footer>
+  </div>
+</body>
+</html>
+
